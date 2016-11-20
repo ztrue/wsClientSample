@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <script>
       window.addEventListener('load', function(event) {
-        var output = document.getElementById('output');
-        var input = document.getElementById('input');
         var host = document.getElementById('host');
         var port = document.getElementById('port');
+        var method = document.getElementById('method');
+        var url = document.getElementById('url');
+        var output = document.getElementById('output');
 
         var ws;
 
@@ -40,8 +41,13 @@
 
         document.getElementById('send').onclick = function(event) {
           if (ws) {
-            print('REQUEST: ' + input.value);
-            ws.send(input.value);
+            var id = Date.now().toString();
+            print('REQUEST: ' + id + ' ' + method.value + ' ' + url.value);
+            ws.send(JSON.stringify({
+              id: id,
+              method: method.value,
+              url: url.value
+            }));
           }
           return false;
         };
@@ -57,11 +63,12 @@
   </head>
   <body>
     <p>
-      <input id="host" type="text" value="localhost" placeholder="host">
-      <input id="port" type="text" value="5000" placeholder="port">
+      <input id="host" type="text" value="localhost" placeholder="Host">
+      <input id="port" type="text" value="5000" placeholder="Port">
       <button id="open">Open</button>
       <button id="close">Close</button>
-      <input id="input" type="text" value="" placeholder="URL">
+      <input id="method" type="text" value="GET" placeholder="Method">
+      <input id="url" type="text" value="" placeholder="URL">
       <button id="send">Send</button>
     </p>
     <p id="output" style="height: 600px; overflow: auto;"></p>
