@@ -46,7 +46,11 @@
             ws.send(JSON.stringify({
               id: id,
               method: method.value,
-              url: url.value
+              url: url.value,
+              headers: {
+                'User-Agent': ['wsClientSample'],
+                'Custom-Header': ['foo', 'bar']
+              }
             }));
           }
           return false;
